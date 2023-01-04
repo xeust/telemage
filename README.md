@@ -1,12 +1,14 @@
-## Setup
+Your personal DALL-E Telegram bot on Deta Space. Send a prompt via Telegram to DALL-E, and it will generate an image, store it in Drive and send it back to you.
 
-1. Create a bot and get a bot key from botfather.
-2. Paste bot key into the `TELEGRAM` configuration variable on Space
-3. Visit the "/" route of the Space app to setup the Webhook
+### Setup
 
-## Use
+1. Create a Telegram bot and get a bot key from Botfather.
+2. Paste the bot key into the `TELEGRAM` configuration variable on Space.
+3. Input an Open AI key into the `OPEN_AI` configuration variable on Space.
+3. Visit the "/" route of the Space app to setup the Webhook with Telegram.
 
-Add your bot as a contact in Telegram and start messaging it to interact with it. Explore and extend.
+### Use
 
-An example of this bot can be interacted with via the Telegram contact `telespace_deta_bot`.
+Add your bot as a contact in Telegram and start messaging it to interact with it. 
 
+Visit [https://github.com/xeust/telespace](https://github.com/xeust/telespace) for the source.
