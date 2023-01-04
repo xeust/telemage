@@ -6,6 +6,7 @@
 
 ## Use
 
+Add your bot as a contact in Telegram and start messaging it to interact with it. Explore and extend.
+
 An example of this bot can be interacted with via the Telegram contact `telespace_deta_bot`.
 
-Add your bot as a contact in Telegram and start messaging it to interact with it. Explore and extend.
