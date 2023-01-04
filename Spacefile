@@ -11,4 +11,4 @@ micros:
         env:
           - name: TELEGRAM
             description: Telegram Bot Key
-            default: "enter my key"
+            default: "enter your key"
