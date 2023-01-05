@@ -61,7 +61,7 @@ async def http_handler(request: Request):
 
 @app.get("/")
 def url_setter(request: Request):
-    prog_url = os.getenv("DETA_SPACE_APP_HOSTNAME") or "87df-2003-d2-972a-3a5b-1dcf-b2af-f6e8-d9d4.ngrok.io"
+    prog_url = os.getenv("DETA_SPACE_APP_HOSTNAME")
     set_url = bot_url + "setWebHook?url=" + "https://" + prog_url +"/open"
     resp = requests.get(set_url)
     return resp.json()
