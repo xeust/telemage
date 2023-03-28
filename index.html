@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  </head>
+  <body>
+    <div id="app">
+        {% if status == "SETUP_ENVS" %}
+        <p>Hey! Your one or both of your configuration variables are not set, please do the following from the Telemage card on Canvas:
+            <ul>
+                <li>
+                    click "...", select "Settings", and then "Configuration".
+                </li>
+                <li>
+                    Set the Configuration Variables - "OPEN_AI" and "TELEGRAM" - and then click "Save Changes".
+                </li>
+                <li>
+                    Refresh this page.
+                </li>
+            </ul>
+        </p>
+        {% elif status == "SETUP_WEBHOOK" %}
+        <p>Your webhook is not set with Telegram, please click the button below to set it.</p>
+        <button id="setWebhook" onclick="setWebhook">Set Webhook</button>
+        <p id="webhookStatus"></p>
+        {% elif status == "READY" %}
+        <p>👅 everything seems to be setup correctly.</p>
+        <p>Just slide into your Telemage bot's DMs with cheeky prompts. You should
+        get generated images in response.</p>
+        <p>Pssst: your images are stored in a Deta Drive. From your Canvas, simply click "...", then "View Data", then "Drive" to preview and download your images.</p>
+        <p>You can also use a <a href="https://deta.space/changelog/post-6" rel=noopener noreferrer>Data Key</a> to use your images elsewhere.</p>
+        {% endif %}
+    </div>
+  </body>
+  <style>
+      {{css}}
+  </style>
+  <script>
+    const setWebhook = () = {
+        fetch('/set_webhook', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({})
+        })
+        .then(res => res.json())
+        .then(res => {
+            console.log(res)
+        })
+    }
+  </script>
+</html>
