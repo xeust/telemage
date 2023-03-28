@@ -3,7 +3,9 @@ import json
 import requests
 import base64
 from deta import Deta
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request 
+from fastapi.responses import HTMLResponse
+from jinja2 import Template
 
 app = FastAPI()
 
@@ -11,7 +13,9 @@ deta = Deta()
 
 photos = deta.Drive("generations")
 
-bot_key = os.getenv("TELEGRAM") or ""
+bot_key = os.getenv("TELEGRAM")
+
+open_ai_key = os.getenv("OPEN_AI")
 
 bot_url = "https://api.telegram.org/bot" + bot_key + "/"
 
@@ -24,7 +28,7 @@ def get_image_from_prompt(prompt):
         "size": "512x512",
         "response_format": "b64_json"
     }
-    auth_header = "Bearer " + os.getenv("OPEN_AI")
+    auth_header = "Bearer " + open_ai_key
     headers = {"Content-Type": "application/json", "Authorization": auth_header}
     response = requests.post(open_ai_url, json=open_ai_data, headers=headers).json()
     if not "error" in response:
@@ -46,9 +50,17 @@ def send_error(chat_id, error_message):
     response = requests.post(message_url, json=payload).json()
     return response
 
+def get_webhook_info():
+    message_url = bot_url + "getWebhookInfo"
+    response = requests.get(message_url).json()
+    return response
+
 @app.post("/open")
 async def http_handler(request: Request):
     incoming_data = await request.json()
+    if "message" not in incoming_data:
+        print(incoming_data)
+        return send_error(user_identity, "Unknown error, lol, handling coming soon")
     prompt = incoming_data['message']['text']
     user_identity = incoming_data['message']['chat']['id']
     open_ai_resp = get_image_from_prompt(prompt)
@@ -58,10 +70,23 @@ async def http_handler(request: Request):
         return send_error(user_identity, open_ai_resp["error"])
     return send_error(user_identity, "Unknown error, lol, handling coming soon")
 
-
-@app.get("/")
+@app.get("/set_webhook")
 def url_setter(request: Request):
     prog_url = os.getenv("DETA_SPACE_APP_HOSTNAME")
     set_url = bot_url + "setWebHook?url=" + "https://" + prog_url +"/open"
     resp = requests.get(set_url)
     return resp.json()
+
+@app.get("/")
+def home(request: Request):
+    home_template = Template((open("index.html").read()))
+    home_css = open("style.css").read()
+    if not (bot_key or open_ai_key):
+        return HTMLResponse(home_template.render(css=home_css, status="SETUP_ENVS"))
+    response = get_webhook_info()
+    if response and "result" in response and not response["result"]["url"]:
+        return HTMLResponse(home_template.render(css=home_css, status="SETUP_WEBHOOK"))
+    elif response and "result" in response and "url" in response["result"]:
+        return HTMLResponse(home_template.render(css=home_css, status="READY"))
+    else:
+        return "error page"

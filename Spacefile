@@ -9,6 +9,7 @@ micros:
       primary: true
       public_routes:
         - "/open"
+      dev: "make dev"
       presets:
         env:
           - name: TELEGRAM

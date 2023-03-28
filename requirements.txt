@@ -2,3 +2,4 @@ uvicorn
 fastapi
 requests
 deta
+jinja2
