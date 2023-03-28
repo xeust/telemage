@@ -89,4 +89,4 @@ def home(request: Request):
     elif response and "result" in response and "url" in response["result"]:
         return HTMLResponse(home_template.render(css=home_css, status="READY"))
     else:
-        return "error page"
+        return HTMLResponse(home_template.render(css=home_css, status="ERROR"))
