@@ -89,9 +89,8 @@ async def http_handler(request: Request):
 
     if prompt == "/start":
         response_text = (
-            "Welcome to Telemage image generator bot. To generate an image, simply"
-            " send me a prompt or phrase and I'll do my best to create an image based"
-            " on it!"
+            "Welcome to Telemage. To generate an image with AI, simply"
+            " send me a prompt or phrase and I'll create something amazing!"
         )
         payload = {"text": response_text, "chat_id": user_identity}
         message_url = f"{BOT_URL}sendMessage"
@@ -101,7 +100,7 @@ async def http_handler(request: Request):
     if prompt == "/help":
         response_text = (
             "To generate an image, simply send me a prompt or phrase and I'll do my"
-            " best to create an image based on it!"
+            " best to create something amazing!"
         )
         payload = {"text": response_text, "chat_id": user_identity}
         message_url = f"{BOT_URL}sendMessage"
