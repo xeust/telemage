@@ -8,10 +8,13 @@
 body {
   display: grid;
   place-items: center;
-  text-align: center;
   height: 100vh;
   padding: 0 1rem;
   line-height: 1.5;
+  max-width: 468px;
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
   font-family: -apple-system, BlinkMacSystemFont, 'avenir next', avenir,
     helvetica, 'helvetica neue', ubuntu, roboto, noto, 'segoe ui', arial,
     sans-serif;
