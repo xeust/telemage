@@ -87,20 +87,10 @@ async def http_handler(request: Request):
     prompt = incoming_data["message"]["text"]
     user_identity = incoming_data["message"]["chat"]["id"]
 
-    if prompt == "/start":
+    if prompt in ("/start", "/help"):
         response_text = (
             "Welcome to Telemage. To generate an image with AI, simply"
             " send me a prompt or phrase and I'll create something amazing!"
-        )
-        payload = {"text": response_text, "chat_id": user_identity}
-        message_url = f"{BOT_URL}sendMessage"
-        requests.post(message_url, json=payload).json()
-        return
-
-    if prompt == "/help":
-        response_text = (
-            "To generate an image, simply send me a prompt or phrase and I'll do my"
-            " best to create something amazing!"
         )
         payload = {"text": response_text, "chat_id": user_identity}
         message_url = f"{BOT_URL}sendMessage"
