@@ -1,0 +1,91 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  padding: 0 1rem;
+  line-height: 1.5;
+  max-width: 468px;
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+  font-family: -apple-system, BlinkMacSystemFont, 'avenir next', avenir,
+    helvetica, 'helvetica neue', ubuntu, roboto, noto, 'segoe ui', arial,
+    sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+ul {
+  padding-inline-start: 20px;
+  text-align: start;
+}
+
+button {
+  border: transparent;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  background-color: #fcb6d8;
+  cursor: pointer;
+  transition: 0.2s ease;
+  margin-top: 8px;
+}
+
+button:hover {
+  background-color: #fb9dca;
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+.toast-container {
+  display: grid;
+  position: fixed;
+  top: 1rem;
+  left: 0;
+  width: 100%;
+  gap: 1rem;
+}
+
+.toast {
+  color: #00000096;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 24rem;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 0 auto;
+  animation: notify 1000ms cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+}
+
+@keyframes notify {
+  0% {
+    transform: translateY(-150%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.toast > div {
+  text-align: left;
+  padding: 0 1rem;
+  width: 100%;
+}
+
+.toast p:first-child {
+  font-size: 1.25rem;
+}
+
+.toast-close {
+  cursor: pointer;
+}
