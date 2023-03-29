@@ -1,5 +1,4 @@
 import base64
-import logging
 import os
 
 import requests
@@ -68,7 +67,6 @@ def home():
     if response and "result" in response and not response["result"]["url"]:
         return HTMLResponse(home_template.render(status="SETUP_WEBHOOK"))
     if response and "result" in response and "url" in response["result"]:
-        logging.warning(response["result"])
         return HTMLResponse(home_template.render(status="READY"))
     return HTMLResponse(home_template.render(status="ERROR"))
 
@@ -127,8 +125,3 @@ def url_setter():
     set_url = f"{BOT_URL}setWebHook?url=https://{PROG_URL}/open"
     resp = requests.get(set_url)
     return resp.json()
-
-
-@app.get("/info")
-def url_sette():
-    return get_webhook_info()

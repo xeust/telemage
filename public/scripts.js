@@ -31,7 +31,7 @@ function generateToast({ status, message, backgroundColor }) {
 const setWebhook = () => {
     fetch('/set_webhook')
         .then(res => {
-            if (res['ok'] === 'True') {
+            if (res['ok'] === true) {
                 generateToast({ status: 'Success', message: "Now your webhook is set up with the Telegram bot!", backgroundColor: "#79ed8d" })
                 return
             }
