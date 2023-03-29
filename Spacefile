@@ -3,18 +3,18 @@ v: 0
 icon: ./telespace.png
 app_name: Telemage
 micros:
-    - name: tele-space
-      src: .
-      engine: python3.9
-      primary: true
-      public_routes:
-        - "/open"
-      dev: "make dev"
-      presets:
-        env:
-          - name: TELEGRAM
-            description: Telegram Bot Key
-            default: "enter your key"
-          - name: OPEN_AI
-            description: Open AI Key
-            default: "enter your key"
+  - name: tele-space
+    src: .
+    engine: python3.9
+    primary: true
+    public_routes:
+      - '/open'
+    dev: 'make dev'
+    presets:
+      env:
+        - name: TELEGRAM
+          description: Telegram Bot Key
+          default: 'enter your key'
+        - name: OPEN_AI
+          description: Open AI Key
+          default: 'enter your key'
