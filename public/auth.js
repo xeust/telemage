@@ -1,19 +1,23 @@
-const addAuthBtn = document.querySelector('.add-id-btn')
-const idList = document.querySelector('.id-list')
+const addBtn = document.querySelector('.add-id-btn');
+const submBtn = document.querySelector('.submit-btn');
+const idList = document.querySelector('.id-list');
 
-
-addAuthBtn.addEventListener('click', function () {
+addBtn.addEventListener('click', () => {
     const li = document.createElement('li');
     const input = document.createElement('input');
+    addBtn.classList.add('hidden');
+    submBtn.classList.remove('hidden');
     input.type = 'text';
     input.placeholder = 'Enter new chat ID';
     li.appendChild(input);
-    idList.insertBefore(li, addAuthBtn.parentNode);
+    idList.insertBefore(li, addBtn.parentNode);
 
-    input.addEventListener('change', function () {
+    function handleSubmit(event) {
+        event.preventDefault();
+        submBtn.removeEventListener('click', handleSubmit);
+
         const value = input.value.trim();
         if (value !== '') {
-
             fetch('/authorize', {
                 method: 'POST',
                 headers: {
@@ -21,16 +25,31 @@ addAuthBtn.addEventListener('click', function () {
                 },
                 body: JSON.stringify({ new_id: Number(value) })
             })
-                .then(response => response.json())
-                .then(data => console.log(data))
-                .catch(error => console.error(error));
-            const newLi = document.createElement('li');
-            newLi.textContent = value;
-            idList.insertBefore(newLi, li);
-            input.value = '';
-            input.remove()
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Failed to add chat ID!');
+                    }
+                })
+                .then(_ => {
+                    const newLi = document.createElement('li');
+                    newLi.textContent = value;
+                    idList.insertBefore(newLi, li);
+                    input.value = '';
+                    input.remove();
+                    addBtn.classList.remove('hidden');
+                    submBtn.classList.add('hidden');
+                    submBtn.addEventListener('click', handleSubmit);
+                })
+                .catch(error => {
+                    console.error(error);
+                    submBtn.addEventListener('click', handleSubmit);
+                });
         }
-    });
-    input.focus()
+    }
 
+    input.addEventListener('change', handleSubmit);
+    submBtn.addEventListener('click', handleSubmit);
+    input.focus();
 });
