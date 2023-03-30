@@ -6,19 +6,25 @@
 }
 
 body {
-  display: grid;
-  place-items: center;
-  height: 100vh;
   padding: 0 1rem;
   line-height: 1.5;
-  max-width: 468px;
   margin: 0 auto;
-  padding-left: 24px;
-  padding-right: 24px;
   font-family: -apple-system, BlinkMacSystemFont, 'avenir next', avenir,
     helvetica, 'helvetica neue', ubuntu, roboto, noto, 'segoe ui', arial,
     sans-serif;
   text-rendering: optimizeLegibility;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  height: 3rem;
+  font-size: 1.125rem;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
 ul {
@@ -26,8 +32,17 @@ ul {
   text-align: start;
 }
 
-button {
-  border: transparent;
+ul.id-list {
+  list-style-type: none;
+  padding-inline-start: 0px;
+}
+
+.temp-container {
+  margin: 0 auto;
+}
+
+.set-webhook-btn {
+  border: none;
   border-radius: 8px;
   padding: 1rem 1.25rem;
   background-color: #fcb6d8;
@@ -36,12 +51,40 @@ button {
   margin-top: 8px;
 }
 
-button:hover {
+.set-webhook-btn:hover {
   background-color: #fb9dca;
 }
 
-button:active {
+.set-webhook-btn:active {
   transform: scale(0.96);
+}
+
+.add-id-btn {
+  border: none;
+  border-radius: 4px;
+  padding: 0.4rem 0.6rem;
+  background-color: #fcb6d8;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+header a {
+  padding: 0 0.5rem;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: calc(100vh - 3rem);
+  padding: 0 24px;
+  max-width: 30rem;
+  margin: 0 auto;
+}
+
+.active {
+  background-color: #fcb6d8;
+  border-radius: 4px;
 }
 
 .toast-container {
