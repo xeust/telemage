@@ -28,6 +28,7 @@ OPEN_AI_URL = "https://api.openai.com/v1/images/generations"
 
 openai.api_key = OPEN_AI_KEY
 
+
 def get_image_from_prompt(prompt):
     response = openai.Image.create(
         prompt=prompt,
@@ -38,11 +39,11 @@ def get_image_from_prompt(prompt):
 
     if "error" not in response:
         return {
-            "b64img": response["data"][0]["b64_json"],
-            "created": response["created"],
+            "b64img": response["data"][0]["b64_json"],  # type: ignore
+            "created": response["created"],  # type: ignore
         }
-    
-    return {"error": response["error"]["message"]}
+
+    return {"error": response["error"]["message"]}  # type: ignore
 
 
 def save_and_send_img(b64img, chat_id, prompt, timestamp):
@@ -70,10 +71,14 @@ def get_webhook_info():
 def home():
     home_template = Template((open("index.html").read()))
 
-    if (not BOT_KEY or BOT_KEY == "enter your key" or 
-        not OPEN_AI_KEY or OPEN_AI_KEY == "enter your key"):
+    if (
+        not BOT_KEY
+        or BOT_KEY == "enter your key"
+        or not OPEN_AI_KEY
+        or OPEN_AI_KEY == "enter your key"
+    ):
         return HTMLResponse(home_template.render(status="SETUP_ENVS"))
-    
+
     response = get_webhook_info()
 
     if response and "result" in response and not response["result"]["url"]:
@@ -120,7 +125,7 @@ async def http_handler(request: Request):
     chat_id = incoming_data["message"]["chat"]["id"]
     authorized_chat_ids = CONFIG.get("chat_ids")
 
-    if prompt in ["/chat-id", "/chatid", "chat id", "Chat ID"]:
+    if prompt in ["/chat-id", "/chatid"]:
         payload = {
             "text": f"```{chat_id}```",
             "chat_id": chat_id,
