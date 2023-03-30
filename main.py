@@ -26,6 +26,13 @@ OPEN_AI_KEY = os.getenv("OPEN_AI")
 BOT_URL = f"https://api.telegram.org/bot{BOT_KEY}"
 OPEN_AI_URL = "https://api.openai.com/v1/images/generations"
 
+env_error = (
+        not BOT_KEY
+        or BOT_KEY == "enter your key"
+        or not OPEN_AI_KEY
+        or OPEN_AI_KEY == "enter your key"
+)
+
 openai.api_key = OPEN_AI_KEY
 
 
@@ -71,15 +78,10 @@ def get_webhook_info():
 def home():
     home_template = Template((open("index.html").read()))
 
-    if (
-        not BOT_KEY
-        or BOT_KEY == "enter your key"
-        or not OPEN_AI_KEY
-        or OPEN_AI_KEY == "enter your key"
-    ):
-        return HTMLResponse(home_template.render(status="SETUP_ENVS"))
-
     response = get_webhook_info()
+
+    if (env_error):
+        return RedirectResponse("/setup")
 
     if response and "result" in response and not response["result"]["url"]:
         return RedirectResponse("/setup")
@@ -92,6 +94,8 @@ def home():
 @app.get("/setup")
 def setup():
     home_template = Template((open("index.html").read()))
+    if (env_error):
+        return HTMLResponse(home_template.render(status="SETUP_ENVS"))
     return HTMLResponse(home_template.render(status="SETUP_WEBHOOK"))
 
 @app.get("/authorize")
