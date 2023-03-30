@@ -7,11 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telemage</title>
     <link href="./public/styles.css" rel="stylesheet">
-    <script src="./public/scripts.js" defer></script>
+    <link rel="icon" href="./public/favicon.svg">
+    {% if status == "SETUP_WEBHOOK" %}
+    <script defer src="./public/index.js"></script>
+    {% elif status == "AUTH" %}
+    <script defer src="./public/auth.js"></script>
+    {% endif %}
 </head>
 
 <body>
-    <div id="app">
+    <header><a href="/">Home</a><a href="/authorize">Authorize</a></header>
+    <div class="app">
         {% if status == "SETUP_ENVS" %}
         <p>hey!</p>
         <br />
@@ -34,7 +40,7 @@
         <p>hello, there.</p>
         <br />
         <p>your webhook is not set with telegram, please click the button below to set it.</p>
-        <button id="setWebhook">Set Webhook</button>
+        <button class="set-webhook-btn">Set Webhook</button>
         {% elif status == "READY" %}
         <p>everything seems to be setup correctly 👅 </p>
         <br />
@@ -43,11 +49,34 @@
             you should get generated images in response.
         </p>
         <br />
-        <p>your images are all stored in a <a href="https://deta.space/docs/en/reference/drive/about" rel=noopener noreferrer>deta drive</a>. from your deta space canvas, simply click "...", then "view data", then
-            "drive" to preview and download. you can also use a <a href="https://deta.space/changelog/post-6" rel=noopener noreferrer>data key</a> if you want
-            to hack around with your images elsewhere. </p>
+        <p>your images are all stored in a <a href="https://deta.space/docs/en/reference/drive/about"
+                rel="noopener noreferrer">deta drive</a>. from your deta space canvas, simply click "...", then "view
+            data", then "drive" to preview and download. you can also use a <a
+                href="https://deta.space/changelog/post-6" rel="noopener noreferrer">data key</a> if you want to hack
+            around with your images elsewhere. </p>
+        {% elif status == "AUTH" %}
+        <div class="temp-container">
+            <p style="text-decoration: underline;">Authorized chat IDs</p>
+            <ul class="id-list">
+                {% if chat_ids != None %}
+                {% for i in chat_ids %}
+                <li>{{i}}</li>
+                {% endfor %}
+                {% endif %}
+                <li><button class="add-id-btn">Add a new chat ID</button></li>
+            </ul>
+        </div>
         {% endif %}
     </div>
 </body>
+
+<script>
+    const currentURL = window.location.pathname
+    const navLinks = document.querySelectorAll('header a').forEach(link => {
+        if (link.getAttribute('href') === currentURL) {
+            link.classList.add('active')
+        }
+    })
+</script>
 
 </html>
