@@ -58,9 +58,11 @@
         <div class="temp-container">
             <p style="text-decoration: underline;">Authorized chat IDs</p>
             <ul class="id-list">
+                {% if chat_ids != None %}
                 {% for i in chat_ids %}
                 <li>{{i}}</li>
                 {% endfor %}
+                {% endif %}
                 <li><button class="add-id-btn">Add a new chat ID</button></li>
             </ul>
         </div>
