@@ -16,6 +16,7 @@
 </head>
 
 <body>
+    <header><a href="/">Home</a><a href="/authorize">Authorize</a></header>
     <div class="app">
         {% if status == "SETUP_ENVS" %}
         <p>hey!</p>
@@ -55,14 +56,15 @@
             around with your images elsewhere. </p>
         {% elif status == "AUTH" %}
         <div class="temp-container">
-            <p style="text-decoration: underline;">Authorized chat IDs</p>
+            <p>Authorized chat IDs</p>
             <ul class="id-list">
                 {% if chat_ids != None %}
                 {% for i in chat_ids %}
                 <li>{{i}}</li>
                 {% endfor %}
                 {% endif %}
-                <li><button class="add-id-btn">Add a new chat ID</button></li>
+                <li><button class="btn add-id-btn">Add a new chat ID</button></li>
+                <li><button class="btn submit-btn hidden">Submit</button></li>
             </ul>
         </div>
         {% elif status == "ERROR" %}
