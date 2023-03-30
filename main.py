@@ -7,6 +7,12 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from jinja2 import Template
+from pydantic import BaseModel
+
+
+class New_ID(BaseModel):
+    new_id: int
+
 
 app = FastAPI()
 app.mount("/public", StaticFiles(directory="public"), name="public")
@@ -84,11 +90,11 @@ def auth():
 
 
 @app.post("/authorize")
-def add_auth(new_id: int):
+def add_auth(item: New_ID):
     if CONFIG.get("chat_ids") is None:
-        CONFIG.put(data=[new_id], key="chat_ids")
+        CONFIG.put(data=[item.new_id], key="chat_ids")
         return
-    CONFIG.update(updates={"value": CONFIG.util.append(new_id)}, key="chat_ids")
+    CONFIG.update(updates={"value": CONFIG.util.append(item.new_id)}, key="chat_ids")
     return
 
 
