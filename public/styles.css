@@ -55,21 +55,6 @@ header a {
 
 .temp-container p {
   font-size: 1.125rem;
-  text-decoration: underline;
-}
-
-.set-webhook-btn {
-  border: none;
-  border-radius: 8px;
-  padding: 1rem 1.25rem;
-  background-color: #fcb6d8;
-  cursor: pointer;
-  transition: 0.2s ease;
-  margin-top: 8px;
-}
-
-.set-webhook-btn:hover {
-  background-color: #fb9dca;
 }
 
 .set-webhook-btn:active {

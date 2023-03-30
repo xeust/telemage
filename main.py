@@ -5,7 +5,7 @@ import openai
 import requests
 from deta import Base, Drive
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from jinja2 import Template
 from pydantic import BaseModel
@@ -82,13 +82,17 @@ def home():
     response = get_webhook_info()
 
     if response and "result" in response and not response["result"]["url"]:
-        return HTMLResponse(home_template.render(status="SETUP_WEBHOOK"))
+        return RedirectResponse("/setup")
 
     if response and "result" in response and "url" in response["result"]:
         return HTMLResponse(home_template.render(status="READY"))
 
     return HTMLResponse(home_template.render(status="ERROR"))
 
+@app.get("/setup")
+def setup():
+    home_template = Template((open("index.html").read()))
+    return HTMLResponse(home_template.render(status="SETUP_WEBHOOK"))
 
 @app.get("/authorize")
 def auth():
@@ -137,8 +141,8 @@ async def http_handler(request: Request):
 
     if prompt in ["/start", "/help"]:
         response_text = (
-            "Welcome to Telemage. To generate an image with AI, simply"
-            " send me a prompt or phrase and I'll create something amazing!"
+            "welcome to telemage. to generate an image with ai,"
+            " send me a prompt or phrase and i'll do some magic."
         )
         payload = {"text": response_text, "chat_id": chat_id}
         message_url = f"{BOT_URL}/sendMessage"
@@ -146,7 +150,7 @@ async def http_handler(request: Request):
         return
 
     if authorized_chat_ids is None or chat_id not in authorized_chat_ids.get("value"):  # type: ignore
-        payload = {"text": "You're not authorized. Contact this bot's admin to authorize.", "chat_id": chat_id}
+        payload = {"text": "you're not authorized. contact this bot's admin to authorize.", "chat_id": chat_id}
         message_url = f"{BOT_URL}/sendMessage"
         requests.post(message_url, json=payload).json()
         return

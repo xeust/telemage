@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <header><a href="/">Home</a><a href="/authorize">Authorize</a></header>
+    <header><a href="/">home</a><a href="/setup">setup</a><a href="/authorize">authorize</a></header>
     <div class="app">
         {% if status == "SETUP_ENVS" %}
         <p>hey!</p>
@@ -37,34 +37,39 @@
         </ul>
         </p>
         {% elif status == "SETUP_WEBHOOK" %}
-        <p>hello, there.</p>
-        <br />
-        <p>your webhook is not set with telegram, please click the button below to set it.</p>
-        <button class="set-webhook-btn">Set Webhook</button>
+        <p>you can use the button below to set your webhook with telegram.</p>
+        <button class="btn add-id-btn set-webhook-btn">set webhook</button>
+        <p>once you've set the webhook, head over to <a href="./authorize"
+            rel="noopener noreferrer">authorize</a>.</p>
         {% elif status == "READY" %}
-        <p>👅 everything seems to be setup correctly</p>
+        <p>👅 configuration seems to be setup correctly.</p>
         <br />
         <p>
-            just slide into your telemage bot's dms with cheeky prompts.
+            you can authorize individual users via <a href="./authorize"
+            rel="noopener noreferrer">authorize</a>.
+            then just slide into your telemage bot's dms with cheeky prompts.
             you should get generated images in response.
         </p>
         <br />
         <p>your images are all stored in a <a href="https://deta.space/docs/en/reference/drive/about"
                 rel="noopener noreferrer">deta drive</a>. from your deta space canvas, simply click "...", then "view
-            data", then "drive" to preview and download. you can also use a <a
+            data", then "drive" to preview and download. grab a <a
                 href="https://deta.space/changelog/post-6" rel="noopener noreferrer">data key</a> if you want to hack
             around with your images elsewhere. </p>
         {% elif status == "AUTH" %}
         <div class="temp-container">
-            <p>Authorized chat IDs</p>
+            <p>
+                to get a chat id to authorize, just send your bot the message "/chat-id" & add it to this list.
+            </p>
+            <p style="text-decoration: underline;">authorized chat ids:</p>
             <ul class="id-list">
                 {% if chat_ids != None %}
                 {% for i in chat_ids %}
                 <li>{{i}}</li>
                 {% endfor %}
                 {% endif %}
-                <li><button class="btn add-id-btn">Add a new chat ID</button></li>
-                <li><button class="btn submit-btn hidden">Submit</button></li>
+                <li><button class="btn add-id-btn">add new chat id</button></li>
+                <li><button class="btn submit-btn hidden">submit</button></li>
             </ul>
         </div>
         {% elif status == "ERROR" %}
