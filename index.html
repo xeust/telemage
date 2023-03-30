@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <div id="app">
+    <div class="app">
         {% if status == "SETUP_ENVS" %}
         <p>hey!</p>
         <br />
@@ -41,7 +41,7 @@
         <p>your webhook is not set with telegram, please click the button below to set it.</p>
         <button class="set-webhook-btn">Set Webhook</button>
         {% elif status == "READY" %}
-        <p>everything seems to be setup correctly 👅 </p>
+        <p>👅 everything seems to be setup correctly</p>
         <br />
         <p>
             just slide into your telemage bot's dms with cheeky prompts.
@@ -65,6 +65,8 @@
                 <li><button class="add-id-btn">Add a new chat ID</button></li>
             </ul>
         </div>
+        {% elif status == "ERROR" %}
+        <p>uh-oh, we've hit an unknown error. please double check your configuration variables.</p>
         {% endif %}
     </div>
 </body>

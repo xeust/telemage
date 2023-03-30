@@ -35,11 +35,13 @@ def get_image_from_prompt(prompt):
         size="512x512",
         response_format="b64_json",
     )
+
     if "error" not in response:
         return {
             "b64img": response["data"][0]["b64_json"],
             "created": response["created"],
         }
+    
     return {"error": response["error"]["message"]}
 
 
@@ -67,13 +69,19 @@ def get_webhook_info():
 @app.get("/")
 def home():
     home_template = Template((open("index.html").read()))
-    if BOT_KEY == "enter your key" or OPEN_AI_KEY == "enter your key":
+
+    if (not BOT_KEY or BOT_KEY == "enter your key" or 
+        not OPEN_AI_KEY or OPEN_AI_KEY == "enter your key"):
         return HTMLResponse(home_template.render(status="SETUP_ENVS"))
+    
     response = get_webhook_info()
+
     if response and "result" in response and not response["result"]["url"]:
         return HTMLResponse(home_template.render(status="SETUP_WEBHOOK"))
+
     if response and "result" in response and "url" in response["result"]:
         return HTMLResponse(home_template.render(status="READY"))
+
     return HTMLResponse(home_template.render(status="ERROR"))
 
 
@@ -81,8 +89,10 @@ def home():
 def auth():
     authorized_chat_ids = CONFIG.get("chat_ids")
     home_template = Template((open("index.html").read()))
+
     if authorized_chat_ids is None:
         return HTMLResponse(home_template.render(status="AUTH", chat_ids=None))
+
     return HTMLResponse(
         home_template.render(status="AUTH", chat_ids=authorized_chat_ids.get("value"))  # type: ignore
     )
@@ -93,6 +103,7 @@ def add_auth(item: New_ID):
     if CONFIG.get("chat_ids") is None:
         CONFIG.put(data=[item.new_id], key="chat_ids")
         return
+
     CONFIG.update(updates={"value": CONFIG.util.append(item.new_id)}, key="chat_ids")
     return
 
@@ -100,14 +111,16 @@ def add_auth(item: New_ID):
 @app.post("/open")
 async def http_handler(request: Request):
     incoming_data = await request.json()
+
     if "message" not in incoming_data:
         print(incoming_data)
         return send_error(None, "Unknown error, lol, handling coming soon")
+
     prompt = incoming_data["message"]["text"]
     chat_id = incoming_data["message"]["chat"]["id"]
     authorized_chat_ids = CONFIG.get("chat_ids")
 
-    if prompt == "/chat_id":
+    if prompt in ["/chat-id", "/chatid", "chat id", "Chat ID"]:
         payload = {
             "text": f"```{chat_id}```",
             "chat_id": chat_id,
@@ -141,6 +154,7 @@ async def http_handler(request: Request):
 
     if "error" in open_ai_resp:
         return send_error(chat_id, open_ai_resp["error"])
+
     return send_error(chat_id, "Unknown error, lol, handling coming soon")
 
 
