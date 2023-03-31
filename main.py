@@ -37,20 +37,22 @@ openai.api_key = OPEN_AI_KEY
 
 
 def get_image_from_prompt(prompt):
-    response = openai.Image.create(
-        prompt=prompt,
-        n=1,
-        size="512x512",
-        response_format="b64_json",
-    )
+    try:
+        response = openai.Image.create(
+            prompt=prompt,
+            n=1,
+            size="512x512",
+            response_format="b64_json",
+        )
 
-    if "error" not in response:
-        return {
-            "b64img": response["data"][0]["b64_json"],  # type: ignore
-            "created": response["created"],  # type: ignore
-        }
-
-    return {"error": response["error"]["message"]}  # type: ignore
+        if "error" not in response:
+            return {
+                "b64img": response["data"][0]["b64_json"],  # type: ignore
+                "created": response["created"],  # type: ignore
+            }
+        return {"error": response["error"]["message"]}  # type: ignore
+    except Exception as e:
+        return {"error": str(e)}  # type: ignore
 
 
 def save_and_send_img(b64img, chat_id, prompt, timestamp):
@@ -122,8 +124,8 @@ def add_auth(item: New_ID):
 
 
 @app.post("/open")
-def http_handler(request: Request):
-    incoming_data = request.json()
+async def http_handler(request: Request):
+    incoming_data = await request.json()
 
     if "message" not in incoming_data:
         print(incoming_data)
