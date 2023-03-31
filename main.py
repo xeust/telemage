@@ -123,7 +123,7 @@ def add_auth(item: New_ID):
 
 @app.post("/open")
 def http_handler(request: Request):
-    incoming_data = await request.json()
+    incoming_data = request.json()
 
     if "message" not in incoming_data:
         print(incoming_data)
