@@ -1,24 +1,34 @@
 ---
-title: "Telemage"
-tagline: "A Telegram Bot for Generating Images via DALL-E"
+title: "telemage"
+tagline: "generating images with ai from your phone"
 theme_color: "#800080"
 git: "https://github.com/xeust/telemage"
 ---
 
-Your personal Telegram bot that uses DALL-E on Deta Space. Send a prompt via Telegram, and Telemage will use DALL-E to generate an image, store it in Drive and send it back to you.
+👅
 
-### Setup
+send a message on telegram, get an image back. 
 
-1. Install the Telemage app on Deta Space.
-2. In Telegram, open search, search for [Botfather](https://t.me/botfather) and add it as a contact. Talk to BotFather and create a Telegram bot (using the  `/newbot` command). BotFather will ask for a bot name and username, then it will give you a bot key.
-3. Paste the bot key from BotFather into the `TELEGRAM` configuration variable on Space (to get to Configuration, click the `...`, then 'Settings' then 'Configuration' from the App's Tile on your Canvas).
-4. Get an API key from [Open AI](https://beta.openai.com/account/api-keys). Input the Open AI API key into the `OPEN_AI` configuration variable on Space.
-5. Visit the "/" route of the Space app (click the App from your Canvas) to setup the Webhook integration with Telegram.
+powered by DALL·E 2 & space.
 
-You are now ready to use your Bot.
+images stored in a deta drive for you to use l8er.
 
-### Use
+### setup
 
-Add your bot (via the Bot's username from step 1) as a contact in Telegram. Start messaging it to interact with it. 
+1. install telemage.
+2. in telegram, open search & search for [botfather](https://t.me/botfather). talk to it to create a telegram bot (use `/newbot`). botfather will give you that bot key.
+3. paste that bot key into the `TELEGRAM` config variable (from your telemage tile on canvas, click the `...`, then 'settings' then 'configuration').
+4. get an API key from [open ai](https://beta.openai.com/account/api-keys). input the API key into the `OPEN_AI` configuration variable (see above).
+5. open your app and visit the "setup" view. click the "setup webhook" button to setup the webhook  with telegram.
+6. message your bot "/chatid" to get your chat id.
+7. open the app again and visit the "authorize" view. add the chat id with the button.
 
-Visit [https://github.com/xeust/telespace](https://github.com/xeust/telespace) for the source.
+you are now readdddy to jump around with some images.
+
+### use
+
+add your bot as a contact in telegram. 
+
+message your bot. get an image back.
+
+visit [https://github.com/xeust/telespace](https://github.com/xeust/telespace) for the source.
