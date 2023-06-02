@@ -26,7 +26,7 @@ BOT_KEY = os.getenv("TELEGRAM")
 OPEN_AI_KEY = os.getenv("OPEN_AI")
 BOT_URL = f"https://api.telegram.org/bot{BOT_KEY}"
 OPEN_AI_URL = "https://api.openai.com/v1/images/generations"
-BLACKHOLE_URL = "https://black_hole-3kf-1-m2789529.deta.app/api/integration/g3oh6r5gjy7s"
+BLACKHOLE_URL = os.getenv("BLACKHOLE")
 
 def is_valid_url(url):
     parsed_url = urlparse(url)
