@@ -41,6 +41,9 @@
         <button class="btn add-id-btn set-webhook-btn">set webhook</button>
         <p>once you've set the webhook, head over to <a href="./authorize"
             rel="noopener noreferrer">authorize</a>.</p>
+            {% if blackhole_url %}
+            <p>telemage is setup to store photos in black hole: <a href="{{blackhole_url}}" target="_blank" rel="noopener noreferrer">{{blackhole_url}}</a></p>
+            {% endif %}
         {% elif status == "READY" %}
         <p>👅 configuration seems to be setup correctly.</p>
         <br />
