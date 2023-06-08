@@ -31,8 +31,6 @@ add your bot as a contact in telegram.
 
 message your bot. get an image back.
 
-visit [https://github.com/xeust/telespace](https://github.com/xeust/telespace) for the source.
-
 ### blackhole integration
 
 if you want your images to be saved in a nifty ui with shareable urls, you can integrate telemage with [blackhole](https://deta.space/discovery/@mikhailsdv/black_hole-3kf) in a few simple steps.
@@ -45,3 +43,5 @@ if you want your images to be saved in a nifty ui with shareable urls, you can i
 all images you generate now be saved in your blackhole 🕳️
 
 (note that this replaces telemage's own native store as the storage destination)
+
+visit [https://github.com/xeust/telemage](https://github.com/xeust/telemage) for the source.

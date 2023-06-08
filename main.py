@@ -52,7 +52,6 @@ def get_image_from_prompt(prompt):
             size="512x512",
             response_format="b64_json",
         )
-
         if "error" not in response:
             return {
                 "b64img": response["data"][0]["b64_json"],  # type: ignore
