@@ -188,7 +188,6 @@ async def http_handler(request: Request):
 @app.get("/set_webhook")
 def url_setter():
     PROG_URL = os.getenv("DETA_SPACE_APP_HOSTNAME")
-    print(PROG_URL)
     set_url = f"{BOT_URL}/setWebHook?url=https://{PROG_URL}/open"
     resp = requests.get(set_url)
     return resp.json()

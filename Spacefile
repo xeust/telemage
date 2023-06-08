@@ -19,5 +19,5 @@ micros:
           description: Open AI Key
           default: 'enter your key'
         - name: BLACKHOLE
-          description: Your Blackhole integration url
-          default: 'should include /api/integration/ in the url'
+          description: Blackhole integration url
+          default: 'enter the url'
