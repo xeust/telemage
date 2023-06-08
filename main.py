@@ -3,6 +3,7 @@ import os
 
 import openai
 import requests
+from urllib.parse import urlparse
 from deta import Base, Drive
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
@@ -25,6 +26,11 @@ BOT_KEY = os.getenv("TELEGRAM")
 OPEN_AI_KEY = os.getenv("OPEN_AI")
 BOT_URL = f"https://api.telegram.org/bot{BOT_KEY}"
 OPEN_AI_URL = "https://api.openai.com/v1/images/generations"
+BLACKHOLE_URL = os.getenv("BLACKHOLE")
+
+def is_valid_url(url):
+    parsed_url = urlparse(url)
+    return bool(parsed_url.scheme and parsed_url.netloc)
 
 env_error = (
         not BOT_KEY
@@ -32,6 +38,8 @@ env_error = (
         or not OPEN_AI_KEY
         or OPEN_AI_KEY == "enter your key"
 )
+
+bh_validity = is_valid_url(BLACKHOLE_URL)
 
 openai.api_key = OPEN_AI_KEY
 
@@ -44,7 +52,6 @@ def get_image_from_prompt(prompt):
             size="512x512",
             response_format="b64_json",
         )
-
         if "error" not in response:
             return {
                 "b64img": response["data"][0]["b64_json"],  # type: ignore
@@ -54,14 +61,16 @@ def get_image_from_prompt(prompt):
     except Exception as e:
         return {"error": str(e)}  # type: ignore
 
-
 def save_and_send_img(b64img, chat_id, prompt, timestamp):
     image_data = base64.b64decode(b64img)
-    filename = f"{timestamp} - {prompt}.png"
-    PHOTOS.put(filename, image_data)
     photo_payload = {"photo": image_data}
     message_url = f"{BOT_URL}/sendPhoto?chat_id={chat_id}&caption={prompt}"
     requests.post(message_url, files=photo_payload).json()
+    if bh_validity:
+        requests.post(BLACKHOLE_URL, files=photo_payload).json()
+    else:
+        filename = f"{timestamp} - {prompt}.png"
+        success = PHOTOS.put(filename, image_data)
     return {"chat_id": chat_id, "caption": prompt}
 
 
@@ -96,9 +105,10 @@ def home():
 @app.get("/setup")
 def setup():
     home_template = Template((open("index.html").read()))
+    blackhole_app_url = f"https://{urlparse(BLACKHOLE_URL).hostname}" if bh_validity else ""
     if (env_error):
         return HTMLResponse(home_template.render(status="SETUP_ENVS"))
-    return HTMLResponse(home_template.render(status="SETUP_WEBHOOK"))
+    return HTMLResponse(home_template.render(status="SETUP_WEBHOOK", blackhole_url=blackhole_app_url))
 
 @app.get("/authorize")
 def auth():
@@ -166,6 +176,7 @@ async def http_handler(request: Request):
         return save_and_send_img(
             open_ai_resp["b64img"], chat_id, prompt, open_ai_resp["created"]
         )
+    print(prompt)
 
     if "error" in open_ai_resp:
         return send_error(chat_id, open_ai_resp["error"])
